@@ -4,13 +4,15 @@ twitter_faves:
   output_bucket: dotufp-raw
   output_prefix: twitter_faves/
 
-twitter_timeline:
+tweets_seen:
   work_list:
     - dotufp
 
-twitter_tweets:
+twitter_timeline:
   work_list:
     - mattyglesias
+  output_bucket: dotufp-raw
+  output_prefix: twitter_timeline/
 
 web_scrape:
   work_list:
