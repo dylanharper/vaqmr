@@ -4,9 +4,11 @@ twitter_faves:
   output_bucket: dotufp-raw
   output_prefix: twitter_faves/
 
-tweets_seen:
+twitter_home_timeline:
   work_list:
     - dotufp
+  output_bucket: dotufp-raw
+  output_prefix: twitter_home_timeline/
 
 twitter_timeline:
   work_list:

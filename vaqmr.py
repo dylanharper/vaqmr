@@ -24,7 +24,7 @@ def get_secrets():
     # get encrypted secrets
     storage_client = storage.Client()
     bucket = storage_client.bucket('dotufp-sm')
-    blob = bucket.blob('vaqmr-secrets.json.encrypted')
+    blob = bucket.blob('vaqmr-secrets.v2.json.encrypted')
     ciphertext = blob.download_as_string()
 
     # decrypt secrets
