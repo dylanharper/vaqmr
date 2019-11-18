@@ -91,3 +91,28 @@ def twitter_home_timeline(event, context):
         blob_name = f'{config["output_prefix"]}{account}/{timestamp}.raw'
 
         vaqmr.upload_data(config['output_bucket'], blob_name, faves.text)
+
+def web_scrape(event, context):
+    """Collect recent tweets/retweets for twitter accounts defined in project config. Triggered by Pub/Sub.
+
+    Args:
+         event (dict):  The dictionary with data specific to this type of
+         event. The `data` field contains the PubsubMessage message. The
+         `attributes` field will contain custom attributes if there are any.
+         context (google.cloud.functions.Context): The Cloud Functions event
+         metadata. The `event_id` field contains the Pub/Sub message ID. The
+         `timestamp` field contains the publish time.
+
+    """
+    config = vaqmr.get_config('web_scrape')
+
+    for site in config['work_list']:
+        storage_key = site['key']
+        url = site['url']
+        headers = {'User-Agent': 'Mozilla/5.0'}
+
+        faves = requests.get(url, headers=headers)
+        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
+        blob_name = f'{config["output_prefix"]}{storage_key}/{timestamp}.raw'
+
+        vaqmr.upload_data(config['output_bucket'], blob_name, faves.text)

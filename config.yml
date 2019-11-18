@@ -18,4 +18,8 @@ twitter_timeline:
 
 web_scrape:
   work_list:
-  - politicalwire.com
+  -
+      key: politicalwire
+      url: http://politicalwire.com
+  output_bucket: dotufp-raw
+  output_prefix: web_scrape/
