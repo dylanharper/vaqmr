@@ -23,7 +23,7 @@ def twitter_faves(event, context):
     for account in config['work_list']:
         url = 'https://api.twitter.com/1.1/favorites/list.json'
         params = {'count': 100, 'screen_name': account}
-        headers = {'Authorization': secrets['twitter_bearer']}
+        headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
         timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
@@ -49,7 +49,7 @@ def twitter_timeline(event, context):
     for account in config['work_list']:
         url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
         params = {'count': 50, 'screen_name': account, 'include_rts': True}
-        headers = {'Authorization': secrets['twitter_bearer']}
+        headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
         timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
