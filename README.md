@@ -8,7 +8,7 @@ gcloud functions deploy twitter_faves --runtime python37 --trigger-topic twitter
 
 ## Adding a new collector
 
-Add new function in main.py.
+Add new function in main.py
 
 Add new config in config.yml
 
@@ -36,3 +36,11 @@ Test function:
 - Check function logs.
 
 - Check output file.
+
+## Monitoring
+
+Errors: <https://console.cloud.google.com/errors?time=P7D&order=COUNT_DESC&resolution=OPEN&resolution=ACKNOWLEDGED&project=dotufp&folder&organizationId>
+
+### Monitoring References
+
+<https://cloud.google.com/functions/docs/monitoring/>
