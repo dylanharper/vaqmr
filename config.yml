@@ -1,25 +1,40 @@
 twitter_faves:
-  work_list:
-    - dotufp
   output_bucket: dotufp-raw
   output_prefix: twitter_faves/
+  schedule:
+    job_id: 0953453450
+    frequency: 0 */6 * * *
+  work_list:
+    -
+      key: dotufp
 
 twitter_home_timeline:
-  work_list:
-    - dotufp
   output_bucket: dotufp-raw
   output_prefix: twitter_home_timeline/
+  schedule:
+    job_id: 0
+    frequency: 0 * * * *
+  work_list:
+    -
+      key: dotufp
 
 twitter_timeline:
-  work_list:
-    - mattyglesias
   output_bucket: dotufp-raw
   output_prefix: twitter_timeline/
+  schedule:
+    job_id: 0
+    frequency: 0 * * * *
+  work_list:
+    -
+      key: mattyglesias
 
 web_scrape:
-  work_list:
-  -
-      key: politicalwire
-      url: http://politicalwire.com
   output_bucket: dotufp-raw
   output_prefix: web_scrape/
+  work_list:
+    -
+      key: politicalwire
+      url: http://politicalwire.com
+      schedule:
+        job_id: 0
+        frequency: 0 */6 * * *
