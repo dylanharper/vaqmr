@@ -4,7 +4,7 @@ import vaqmr
 import base64
 import json
 
-def vaqmr(event, context):
+def vaqmr_worker(event, context):
     """Collect recent faves/likes for twitter accounts defined in project config. Triggered by Pub/Sub.
 
     Args:

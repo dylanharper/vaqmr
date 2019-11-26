@@ -12,7 +12,7 @@ from google.cloud import kms_v1
 from google.cloud import storage
 
 def _get_timestamp():
-    return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
+    return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def _get_blob_name(output_prefix, account, timestamp):
     return f'{output_prefix}{account}/{timestamp}.raw'
@@ -57,14 +57,16 @@ def twitter_faves():
     secrets = _get_secrets()
 
     for account in config['work_list']:
+        storage_key = account['key']
         url = 'https://api.twitter.com/1.1/favorites/list.json'
-        params = {'count': 100, 'screen_name': account}
+        params = {'count': 100, 'screen_name': storage_key}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
+        faves.raise_for_status()
 
         timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config["output_prefix"], account, timestamp)
+        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
 def twitter_timeline():
@@ -73,14 +75,16 @@ def twitter_timeline():
     secrets = _get_secrets()
 
     for account in config['work_list']:
+        storage_key = account['key']
         url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-        params = {'count': 50, 'screen_name': account, 'include_rts': True}
+        params = {'count': 50, 'screen_name': storage_key, 'include_rts': True}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
+        faves.raise_for_status()
 
         timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config["output_prefix"], account, timestamp)
+        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
 def twitter_home_timeline():
@@ -90,6 +94,7 @@ def twitter_home_timeline():
 
     # looping through work_list doesn't make sense when we only have 1 bearer token
     for account in config['work_list']:
+        storage_key = account['key']
         url = 'https://api.twitter.com/1.1/statuses/home_timeline.json'
         client_key = secrets['twitter']['API key']
         client_secret = secrets['twitter']['API secret key']
@@ -103,9 +108,10 @@ def twitter_home_timeline():
         params = {'count': 100}
 
         faves = requests.get(url, auth=header_oauth, params=params)
+        faves.raise_for_status()
 
         timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config["output_prefix"], account, timestamp)
+        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
 def web_scrape():
@@ -118,7 +124,8 @@ def web_scrape():
         headers = {'User-Agent': 'Mozilla/5.0'}
 
         faves = requests.get(url, headers=headers)
+        faves.raise_for_status()
 
         timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config["output_prefix"], storage_key, timestamp)
+        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
         _upload_data(config['output_bucket'], blob_name, faves.text)
