@@ -4,8 +4,10 @@ import vaqmr
 import requests
 from requests_oauthlib import OAuth1
 from datetime import datetime
+import base64
+import json
 
-def twitter_faves(event, context):
+def vaqmr(event, context):
     """Collect recent faves/likes for twitter accounts defined in project config. Triggered by Pub/Sub.
 
     Args:
@@ -17,6 +19,23 @@ def twitter_faves(event, context):
          `timestamp` field contains the publish time.
 
     """
+    event_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))
+    collector = event_data['collector']
+    # work_list = event_data.get('work_list')
+
+    if collector == 'twitter_faves':
+        twitter_faves()
+    elif collector == 'twitter_timeline':
+        twitter_timeline()
+    elif collector == 'twitter_home_timeline':
+        twitter_home_timeline()
+    elif collector == 'web_scrape':
+        web_scrape()
+    else:
+        raise ValueError(f'Unknown collector type: {collector}')
+
+
+def twitter_faves():
     config = vaqmr.get_config('twitter_faves')
     secrets = vaqmr.get_secrets()
 
@@ -31,18 +50,7 @@ def twitter_faves(event, context):
 
         vaqmr.upload_data(config['output_bucket'], blob_name, faves.text)
 
-def twitter_timeline(event, context):
-    """Collect recent tweets/retweets for twitter accounts defined in project config. Triggered by Pub/Sub.
-
-    Args:
-         event (dict):  The dictionary with data specific to this type of
-         event. The `data` field contains the PubsubMessage message. The
-         `attributes` field will contain custom attributes if there are any.
-         context (google.cloud.functions.Context): The Cloud Functions event
-         metadata. The `event_id` field contains the Pub/Sub message ID. The
-         `timestamp` field contains the publish time.
-
-    """
+def twitter_timeline():
     config = vaqmr.get_config('twitter_timeline')
     secrets = vaqmr.get_secrets()
 
@@ -57,18 +65,7 @@ def twitter_timeline(event, context):
 
         vaqmr.upload_data(config['output_bucket'], blob_name, faves.text)
 
-def twitter_home_timeline(event, context):
-    """Collect recent tweets seen by twitter accounts defined in project config. Triggered by Pub/Sub.
-
-    Args:
-         event (dict):  The dictionary with data specific to this type of
-         event. The `data` field contains the PubsubMessage message. The
-         `attributes` field will contain custom attributes if there are any.
-         context (google.cloud.functions.Context): The Cloud Functions event
-         metadata. The `event_id` field contains the Pub/Sub message ID. The
-         `timestamp` field contains the publish time.
-
-    """
+def twitter_home_timeline():
     config = vaqmr.get_config('twitter_home_timeline')
     secrets = vaqmr.get_secrets()
 
@@ -92,18 +89,7 @@ def twitter_home_timeline(event, context):
 
         vaqmr.upload_data(config['output_bucket'], blob_name, faves.text)
 
-def web_scrape(event, context):
-    """Collect recent tweets/retweets for twitter accounts defined in project config. Triggered by Pub/Sub.
-
-    Args:
-         event (dict):  The dictionary with data specific to this type of
-         event. The `data` field contains the PubsubMessage message. The
-         `attributes` field will contain custom attributes if there are any.
-         context (google.cloud.functions.Context): The Cloud Functions event
-         metadata. The `event_id` field contains the Pub/Sub message ID. The
-         `timestamp` field contains the publish time.
-
-    """
+def web_scrape():
     config = vaqmr.get_config('web_scrape')
 
     for site in config['work_list']:
