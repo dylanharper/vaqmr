@@ -41,6 +41,4 @@ Test function:
 
 Errors: <https://console.cloud.google.com/errors?time=P7D&order=COUNT_DESC&resolution=OPEN&resolution=ACKNOWLEDGED&project=dotufp&folder&organizationId>
 
-### Monitoring References
-
-<https://cloud.google.com/functions/docs/monitoring/>
+Reference: <https://cloud.google.com/functions/docs/monitoring/>
