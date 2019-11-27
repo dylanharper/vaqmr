@@ -7,6 +7,8 @@ twitter_faves:
   work_list:
     -
       key: dotufp
+      storage_key: dotufp
+      twitter_id: 1198432662030970880
 
 twitter_home_timeline:
   output_bucket: dotufp-raw
@@ -17,6 +19,8 @@ twitter_home_timeline:
   work_list:
     -
       key: dotufp
+      storage_key: dotufp
+      twitter_id: 1198432662030970880
 
 twitter_timeline:
   output_bucket: dotufp-raw
@@ -27,6 +31,8 @@ twitter_timeline:
   work_list:
     -
       key: mattyglesias
+      storage_key: mattyglesias
+      twitter_id: 15446531
 
 web_scrape:
   output_bucket: dotufp-raw
@@ -34,6 +40,7 @@ web_scrape:
   work_list:
     -
       key: politicalwire
+      storage_key: politicalwire
       url: http://politicalwire.com
       schedule:
         job_id: 0

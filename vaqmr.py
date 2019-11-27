@@ -77,7 +77,7 @@ def twitter_timeline():
     for account in config['work_list']:
         storage_key = account['key']
         url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-        params = {'count': 50, 'screen_name': storage_key, 'include_rts': True}
+        params = {'count': 50, 'user_id': account['twitter_id'], 'include_rts': True}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
