@@ -59,7 +59,7 @@ def twitter_faves():
     for account in config['work_list']:
         storage_key = account['key']
         url = 'https://api.twitter.com/1.1/favorites/list.json'
-        params = {'count': 100, 'screen_name': storage_key}
+        params = {'count': 100, 'screen_name': storage_key, 'tweet_mode': 'extended'}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
@@ -77,7 +77,7 @@ def twitter_timeline():
     for account in config['work_list']:
         storage_key = account['key']
         url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-        params = {'count': 50, 'user_id': account['twitter_id'], 'include_rts': True}
+        params = {'count': 50, 'user_id': account['twitter_id'], 'include_rts': True, 'tweet_mode': 'extended'}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
         faves = requests.get(url, params=params, headers=headers)
@@ -105,7 +105,7 @@ def twitter_home_timeline():
                                                 resource_owner_key, resource_owner_secret,
                                                 signature_type='auth_header')
 
-        params = {'count': 100}
+        params = {'count': 100, 'tweet_mode': 'extended'}
 
         faves = requests.get(url, auth=header_oauth, params=params)
         faves.raise_for_status()
