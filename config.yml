@@ -42,6 +42,15 @@ web_scrape:
       key: politicalwire
       storage_key: politicalwire
       url: http://politicalwire.com
-      schedule:
-        job_id: 0
-        frequency: 0 */6 * * *
+    -
+      key: planets_data_eu
+      storage_key: planets_data_eu
+      url: http://exoplanet.eu/catalog/csv/
+    -
+      key: planets_data_nasa
+      storage_key: planets_data_nasa
+      url: http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,ra,dec&order=dec
+    -
+      key: planets_data_oec
+      storage_key: planets_data_oec
+      url: https://github.com/OpenExoplanetCatalogue/oec_gzip/raw/master/systems.xml.gz
