@@ -1,8 +1,8 @@
 twitter_faves:
   output_bucket: dotufp-raw
-  output_prefix: twitter_faves/
+  output_prefix: twitter_faves
   schedule:
-    job_id: 0953453450
+    job_id: twitter-faves
     frequency: 0 */6 * * *
   work_list:
     -
@@ -12,9 +12,9 @@ twitter_faves:
 
 twitter_home_timeline:
   output_bucket: dotufp-raw
-  output_prefix: twitter_home_timeline/
+  output_prefix: twitter_home_timeline
   schedule:
-    job_id: 0
+    job_id: twitter-home-timeline
     frequency: 0 * * * *
   work_list:
     -
@@ -24,9 +24,9 @@ twitter_home_timeline:
 
 twitter_timeline:
   output_bucket: dotufp-raw
-  output_prefix: twitter_timeline/
+  output_prefix: twitter_timeline
   schedule:
-    job_id: 0
+    job_id: twitter-timeline
     frequency: 0 * * * *
   work_list:
     -
@@ -36,7 +36,7 @@ twitter_timeline:
 
 web_scrape:
   output_bucket: dotufp-raw
-  output_prefix: web_scrape/
+  output_prefix: web_scrape
   work_list:
     -
       key: politicalwire

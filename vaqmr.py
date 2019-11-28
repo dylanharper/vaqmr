@@ -15,7 +15,7 @@ def _get_timestamp():
     return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def _get_blob_name(output_prefix, account, timestamp):
-    return f'{output_prefix}{account}/{timestamp}.raw'
+    return f'{output_prefix}/{account}/{timestamp}.raw'
 
 def _get_config(config_key: str =None):
     """Fetch requested configurations from project config."""
@@ -52,7 +52,7 @@ def _upload_data(bucket_name: str, blob_name: str, data: str):
 
 
 def twitter_faves():
-    """Collect recent faves/likes for twitter accounts defined in project config. Triggered by Pub/Sub."""
+    """Collect recent faves/likes for twitter accounts defined in project config."""
     config = _get_config('twitter_faves')
     secrets = _get_secrets()
 
@@ -70,7 +70,7 @@ def twitter_faves():
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
 def twitter_timeline():
-    """Collect recent tweets/retweets for twitter accounts defined in project config. Triggered by Pub/Sub."""
+    """Collect recent tweets/retweets for twitter accounts defined in project config."""
     config = _get_config('twitter_timeline')
     secrets = _get_secrets()
 
@@ -88,7 +88,7 @@ def twitter_timeline():
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
 def twitter_home_timeline():
-    """Collect recent tweets seen by twitter accounts defined in project config. Triggered by Pub/Sub."""
+    """Collect recent tweets seen by twitter accounts defined in project config."""
     config = _get_config('twitter_home_timeline')
     secrets = _get_secrets()
 
@@ -115,7 +115,7 @@ def twitter_home_timeline():
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
 def web_scrape():
-    """Capture public websites defined in project config. Triggered by Pub/Sub."""
+    """Capture public websites defined in project config."""
     config = _get_config('web_scrape')
 
     for site in config['work_list']:
