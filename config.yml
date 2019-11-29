@@ -50,7 +50,3 @@ web_scrape:
       key: planets_data_nasa
       storage_key: planets_data_nasa
       url: http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,ra,dec&order=dec
-    -
-      key: planets_data_oec
-      storage_key: planets_data_oec
-      url: https://github.com/OpenExoplanetCatalogue/oec_gzip/raw/master/systems.xml.gz

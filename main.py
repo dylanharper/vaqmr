@@ -14,6 +14,8 @@ def vaqmr_worker(event, context):
          context (google.cloud.functions.Context): The Cloud Functions event
          metadata. The `event_id` field contains the Pub/Sub message ID. The
          `timestamp` field contains the publish time.
+    Returns:
+        None; the output is written to Storage.
 
     """
     event_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))
