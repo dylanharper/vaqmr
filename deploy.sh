@@ -1,0 +1,1 @@
+gcloud functions deploy vaqmr_worker --runtime python37 --trigger-topic vaqmr

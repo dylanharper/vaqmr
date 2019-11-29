@@ -18,6 +18,7 @@ def vaqmr_worker(event, context):
     """
     event_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))
     collector = event_data['collector']
+    print(f'Collector: {collector}')
     # work_list = event_data.get('work_list')
 
     if collector == 'twitter_faves':
