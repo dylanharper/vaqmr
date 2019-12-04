@@ -24,11 +24,11 @@ def vaqmr_worker(event, context):
     # work_list = event_data.get('work_list')
 
     if collector == 'twitter_faves':
-        vaqmr.twitter_faves()
+        vaqmr.twitter_faves(event_data)
     elif collector == 'twitter_timeline':
-        vaqmr.twitter_timeline()
+        vaqmr.twitter_timeline(event_data)
     elif collector == 'twitter_home_timeline':
-        vaqmr.twitter_home_timeline()
+        vaqmr.twitter_home_timeline(event_data)
     elif collector == 'web_scrape':
         vaqmr.web_scrape(event_data)
     else:
