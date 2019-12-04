@@ -1,4 +1,5 @@
 twitter_faves:
+  url: https://api.twitter.com/1.1/favorites/list.json
   output_bucket: dotufp-raw
   output_prefix: twitter_faves
   schedule:
@@ -10,19 +11,8 @@ twitter_faves:
       storage_key: dotufp
       twitter_id: 1198432662030970880
 
-twitter_home_timeline:
-  output_bucket: dotufp-raw
-  output_prefix: twitter_home_timeline
-  schedule:
-    job_id: twitter-home-timeline
-    frequency: 0 * * * *
-  work_list:
-    -
-      key: dotufp
-      storage_key: dotufp
-      twitter_id: 1198432662030970880
-
 twitter_timeline:
+  url: https://api.twitter.com/1.1/statuses/user_timeline.json
   output_bucket: dotufp-raw
   output_prefix: twitter_timeline
   schedule:
@@ -33,6 +23,19 @@ twitter_timeline:
       key: mattyglesias
       storage_key: mattyglesias
       twitter_id: 15446531
+
+twitter_home_timeline:
+  url: https://api.twitter.com/1.1/statuses/home_timeline.json
+  output_bucket: dotufp-raw
+  output_prefix: twitter_home_timeline
+  schedule:
+    job_id: twitter-home-timeline
+    frequency: 0 * * * *
+  work_list:
+    -
+      key: dotufp
+      storage_key: dotufp
+      twitter_id: 1198432662030970880
 
 web_scrape:
   output_bucket: dotufp-raw

@@ -57,18 +57,15 @@ def twitter_faves(event_data):
     config = _get_config('twitter_faves')
     work_list = event_data.get('work_list') or config['work_list']
 
-    for account in work_list:
-        storage_key = account['storage_key']
-        url = 'https://api.twitter.com/1.1/favorites/list.json'
-        params = {'count': 100, 'screen_name': storage_key, 'tweet_mode': 'extended'}
+    for work_item in work_list:
+        params = {'count': 100, 'screen_name': work_item['storage_key'], 'tweet_mode': 'extended'}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
-        faves = requests.get(url, params=params, headers=headers)
-        faves.raise_for_status()
+        response = requests.get(config['url'], params=params, headers=headers)
+        response.raise_for_status()
 
-        timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
-        _upload_data(config['output_bucket'], blob_name, faves.text)
+        blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
+        _upload_data(config['output_bucket'], blob_name, response.text)
 
 def twitter_timeline(event_data):
     """Collect recent tweets/retweets for twitter accounts defined in project config."""
@@ -76,18 +73,15 @@ def twitter_timeline(event_data):
     config = _get_config('twitter_timeline')
     work_list = event_data.get('work_list') or config['work_list']
 
-    for account in work_list:
-        storage_key = account['storage_key']
-        url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-        params = {'count': 50, 'user_id': account['twitter_id'], 'include_rts': True, 'tweet_mode': 'extended'}
+    for work_item in work_list:
+        params = {'count': 50, 'user_id': work_item['twitter_id'], 'include_rts': True, 'tweet_mode': 'extended'}
         headers = {'Authorization': secrets['twitter']['Bearer']}
 
-        faves = requests.get(url, params=params, headers=headers)
-        faves.raise_for_status()
+        response = requests.get(config['url'], params=params, headers=headers)
+        response.raise_for_status()
 
-        timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
-        _upload_data(config['output_bucket'], blob_name, faves.text)
+        blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
+        _upload_data(config['output_bucket'], blob_name, response.text)
 
 def twitter_home_timeline(event_data):
     """Collect recent tweets seen by twitter accounts defined in project config."""
@@ -96,40 +90,32 @@ def twitter_home_timeline(event_data):
     work_list = event_data.get('work_list') or config['work_list']
 
     # looping through work_list doesn't make sense when we only have 1 bearer token
-    for account in work_list:
-        storage_key = account['storage_key']
-        url = 'https://api.twitter.com/1.1/statuses/home_timeline.json'
-        client_key = secrets['twitter']['API key']
-        client_secret = secrets['twitter']['API secret key']
-        resource_owner_key = secrets['twitter']['Access token']
-        resource_owner_secret = secrets['twitter']['Access token secret']
-
-        header_oauth = OAuth1(client_key, client_secret,
-                                                resource_owner_key, resource_owner_secret,
-                                                signature_type='auth_header')
+    for work_item in work_list:
+        header_oauth = OAuth1(secrets['twitter']['API key'],
+                              secrets['twitter']['API secret key'],
+                              secrets['twitter']['Access token'],
+                              secrets['twitter']['Access token secret'],
+                              signature_type='auth_header')
 
         params = {'count': 100, 'tweet_mode': 'extended'}
 
-        faves = requests.get(url, auth=header_oauth, params=params)
-        faves.raise_for_status()
+        response = requests.get(config['url'], auth=header_oauth, params=params)
+        response.raise_for_status()
 
-        timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
-        _upload_data(config['output_bucket'], blob_name, faves.text)
+        blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
+        _upload_data(config['output_bucket'], blob_name, response.text)
 
 def web_scrape(event_data):
     """Capture public websites defined in project config."""
     config = _get_config('web_scrape')
     work_list = event_data.get('work_list') or config['work_list']
 
-    for site in work_list:
-        storage_key = site['storage_key']
-        url = site['url']
+    for work_item in work_list:
+        url = work_item['url']
         headers = {'User-Agent': 'Mozilla/5.0'}
 
-        faves = requests.get(url, headers=headers)
-        faves.raise_for_status()
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
 
-        timestamp = _get_timestamp()
-        blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
-        _upload_data(config['output_bucket'], blob_name, faves.text)
+        blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
+        _upload_data(config['output_bucket'], blob_name, response.text)

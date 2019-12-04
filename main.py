@@ -5,7 +5,7 @@ import base64
 import json
 
 def vaqmr_worker(event, context):
-    """Collect recent faves/likes for twitter accounts defined in project config. Triggered by Pub/Sub.
+    """Collect raw data and put in storage. Triggered by Pub/Sub.
 
     Args:
          event (dict):  The dictionary with data specific to this type of
@@ -21,7 +21,6 @@ def vaqmr_worker(event, context):
     event_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))
     collector = event_data['collector']
     print(f'Collector: {collector}')
-    # work_list = event_data.get('work_list')
 
     if collector == 'twitter_faves':
         vaqmr.twitter_faves(event_data)
