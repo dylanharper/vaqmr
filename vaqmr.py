@@ -57,7 +57,7 @@ def twitter_faves():
     secrets = _get_secrets()
 
     for account in config['work_list']:
-        storage_key = account['key']
+        storage_key = account['storage_key']
         url = 'https://api.twitter.com/1.1/favorites/list.json'
         params = {'count': 100, 'screen_name': storage_key, 'tweet_mode': 'extended'}
         headers = {'Authorization': secrets['twitter']['Bearer']}
@@ -75,7 +75,7 @@ def twitter_timeline():
     secrets = _get_secrets()
 
     for account in config['work_list']:
-        storage_key = account['key']
+        storage_key = account['storage_key']
         url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
         params = {'count': 50, 'user_id': account['twitter_id'], 'include_rts': True, 'tweet_mode': 'extended'}
         headers = {'Authorization': secrets['twitter']['Bearer']}
@@ -94,7 +94,7 @@ def twitter_home_timeline():
 
     # looping through work_list doesn't make sense when we only have 1 bearer token
     for account in config['work_list']:
-        storage_key = account['key']
+        storage_key = account['storage_key']
         url = 'https://api.twitter.com/1.1/statuses/home_timeline.json'
         client_key = secrets['twitter']['API key']
         client_secret = secrets['twitter']['API secret key']
@@ -114,12 +114,13 @@ def twitter_home_timeline():
         blob_name = _get_blob_name(config['output_prefix'], storage_key, timestamp)
         _upload_data(config['output_bucket'], blob_name, faves.text)
 
-def web_scrape():
+def web_scrape(event_data):
     """Capture public websites defined in project config."""
     config = _get_config('web_scrape')
+    work_list = event_data.get('work_list') or config['work_list']
 
-    for site in config['work_list']:
-        storage_key = site['key']
+    for site in work_list:
+        storage_key = site['storage_key']
         url = site['url']
         headers = {'User-Agent': 'Mozilla/5.0'}
 

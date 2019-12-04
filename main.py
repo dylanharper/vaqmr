@@ -30,6 +30,6 @@ def vaqmr_worker(event, context):
     elif collector == 'twitter_home_timeline':
         vaqmr.twitter_home_timeline()
     elif collector == 'web_scrape':
-        vaqmr.web_scrape()
+        vaqmr.web_scrape(event_data)
     else:
         raise ValueError(f'Unknown collector type: {collector}')

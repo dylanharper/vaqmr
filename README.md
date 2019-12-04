@@ -1,5 +1,13 @@
 # Vaqmr
 
+## Manual (non-scheduled) collection
+
+Web-scrape is able to handle collection requests outside of its config.
+
+```bash
+gcloud pubsub topics publish vaqmr --message '{"collector":"web_scrape", "work_list":[{"url":"http://blah.meh","storage_key":"blah"}]}'
+```
+
 ## Adding a new collector
 
 Add new function in main.py
