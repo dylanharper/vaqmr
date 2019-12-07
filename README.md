@@ -1,5 +1,7 @@
 # Vaqmr
 
+a data collection tool
+
 ## Manual (non-scheduled) collection
 
 Web-scrape is able to handle collection requests outside of its config.
@@ -13,6 +15,18 @@ gcloud pubsub topics publish vaqmr --message '{"collector":"web_scrape", "work_l
 Add new function in main.py
 
 Add new config in config.yml
+
+Test locally:
+
+```python
+import main
+
+main.vaqmr_worker({'collector':'your_new_collector'}, 'context')
+```
+
+- check output in gs://dotufp-raw/
+
+- deploy vaqmr
 
 Create a schedule:
 
@@ -29,6 +43,21 @@ Test function:
 - Check [function logs](https://console.cloud.google.com/logs/viewer?project=dotufp&resource=cloud_function%2Ffunction_name%2Fvaqmr_worker%2Fregion%2Fus-central1&minLogLevel=0&expandAll=false).
 
 - Check output file.
+
+## Testing partial worklist
+
+Test locally:
+
+```python
+import main
+
+main.vaqmr_worker(event={'collector':'your_new_collector',
+                         'work_list':[{'url':'http://blah.meh',
+                                       'storage_key':'blah'}]},
+                  context='context')
+```
+
+Or refer Manual (non-scheduled) collection.
 
 ## Monitoring
 

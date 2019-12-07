@@ -51,7 +51,7 @@ def _upload_data(bucket_name: str, blob_name: str, data: str):
     blob.upload_from_string(data)
 
 
-def twitter_faves(event_data):
+def twitter_faves(event_data: str=None):
     """Collect recent faves/likes for twitter accounts defined in project config."""
     secrets = _get_secrets()
     config = _get_config('twitter_faves')
@@ -67,7 +67,7 @@ def twitter_faves(event_data):
         blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
         _upload_data(config['output_bucket'], blob_name, response.text)
 
-def twitter_timeline(event_data):
+def twitter_timeline(event_data: str=None):
     """Collect recent tweets/retweets for twitter accounts defined in project config."""
     secrets = _get_secrets()
     config = _get_config('twitter_timeline')
@@ -83,7 +83,7 @@ def twitter_timeline(event_data):
         blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
         _upload_data(config['output_bucket'], blob_name, response.text)
 
-def twitter_home_timeline(event_data):
+def twitter_home_timeline(event_data: str=None):
     """Collect recent tweets seen by twitter accounts defined in project config."""
     secrets = _get_secrets()
     config = _get_config('twitter_home_timeline')
@@ -105,7 +105,7 @@ def twitter_home_timeline(event_data):
         blob_name = _get_blob_name(config['output_prefix'], work_item['storage_key'], _get_timestamp())
         _upload_data(config['output_bucket'], blob_name, response.text)
 
-def web_scrape(event_data):
+def web_scrape(event_data: str=None):
     """Capture public websites defined in project config."""
     config = _get_config('web_scrape')
     work_list = event_data.get('work_list') or config['work_list']
