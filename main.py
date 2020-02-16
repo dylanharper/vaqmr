@@ -4,6 +4,7 @@ import vaqmr
 import base64
 import json
 
+
 def vaqmr_worker(event, context):
     """Collect raw data and put in storage. Triggered by Pub/Sub.
 
